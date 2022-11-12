@@ -1,9 +1,10 @@
 package com.vologzhin;
 
-import com.vologzhin.commands.DeterminantCramerCommand;
-import com.vologzhin.commands.MultiplyMatrixesCommand;
+import com.vologzhin.commands.DeterminantMatrixCommand;
 import com.vologzhin.commands.SolveEquationSystem;
+import com.vologzhin.commands.multiplyMatrixCommand;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -21,21 +22,31 @@ public class Main {
             int selected = scanner.nextInt();
 
             switch (selected) {
-                case 1:
-                    DeterminantCramerCommand.run(scanner);
-
-                case 2:
-                    MultiplyMatrixesCommand.run(scanner);
-
-                case 3:
-                    SolveEquationSystem.run(scanner);
-
-                default: {
-                    System.out.println("Такой команды нет, попробуйте снова");
-                }
+                case 1 -> DeterminantMatrixCommand.run(scanner);
+                case 2 -> multiplyMatrixCommand.run(scanner);
+                case 3 -> SolveEquationSystem.run(scanner);
+                default -> System.out.println("Такой команды нет, попробуйте снова");
             }
         }
     }
 
+    public static void exitWithException(Scanner scanner, String message) {
+        System.out.printf("Произошла ошибка: %s\n", message);
+        System.out.println("Вы хотите выйти (y), или попробовать снова? (n): ");
+        String answer = scanner.next().trim().toLowerCase(Locale.ROOT);
+
+        switch (answer) {
+            default:
+            case "y":
+            case "yes":
+                System.exit(0);
+                break;
+
+            case "n":
+            case "no":
+                break;
+        }
+
+    }
 
 }

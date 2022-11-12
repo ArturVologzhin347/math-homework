@@ -56,6 +56,44 @@ public class Matrix {
         }
     }
 
+    public double[] kramer(double[] values) {
+        if (!isSquare()) {
+            throw new IllegalArgumentException("Матрица должна быть квадратной");
+        }
+
+        if (values.length != this.width) {
+            throw new RuntimeException("Кол-во значений должно быть равно размеру матрицы");
+        }
+
+        double detA = determinant();
+
+        if (Double.isNaN(detA) || detA == 0) {
+            throw new RuntimeException("Детерминант A равен 0, методом Крамера решить нельзя");
+        }
+
+        double[] results = new double[values.length];
+
+        for (int i = 0; i < values.length; i++) {
+            Matrix matrix = replaceColumn(i, values);
+            System.out.printf("D%d:\n" + matrix + "\n", i);
+            double det = matrix.determinant();
+            System.out.printf("Det X%d: %f\n", i, det);
+            results[i] = det / detA;
+        }
+
+        return results;
+    }
+
+    public Matrix replaceColumn(int index, double[] column) {
+        double[][] newM = new double[width][height];
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                newM[i][j] = index == j ? column[i] : m[i][j];
+
+        return new Matrix(newM);
+    }
+
+
     public Matrix transpose() {
         Matrix result = new Matrix(height, width);
         for (int i = 0; i < width; i++)
@@ -122,18 +160,7 @@ public class Matrix {
         return builder.toString();
     }
 
-    public static Matrix fromInput(String name, Scanner scanner) {
-
-        System.out.printf("Введите кол-во строк матрицы %s: ", name);
-        int width = scanner.nextInt();
-
-        System.out.printf("Введите кол-во колонок матрицы %s: ", name);
-        int height = scanner.nextInt();
-
-        if (width <= 0 || height <= 0) {
-            throw new IllegalArgumentException("width and height must be more then zero.");
-        }
-
+    public static Matrix fromInput(Scanner scanner, String name, int width, int height) {
         double[][] m = new double[width][height];
 
         for (int i = 0; i < width; i++)
@@ -145,4 +172,13 @@ public class Matrix {
         return new Matrix(m);
     }
 
+    public static Matrix fromInput(String name, Scanner scanner) {
+        System.out.printf("Введите кол-во строк матрицы %s: ", name);
+        int width = scanner.nextInt();
+
+        System.out.printf("Введите кол-во колонок матрицы %s: ", name);
+        int height = scanner.nextInt();
+
+        return fromInput(scanner, name, width, height);
+    }
 }
