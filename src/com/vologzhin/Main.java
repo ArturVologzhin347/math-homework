@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // Бесконечный цикл
         while (true) {
             System.out.println("Выберите, что вы хотите сделать: ");
 
@@ -21,6 +22,7 @@ public class Main {
 
             int selected = scanner.nextInt();
 
+            // Определяем дальнейшие действия
             switch (selected) {
                 case 1 -> DeterminantMatrixCommand.run(scanner);
                 case 2 -> multiplyMatrixCommand.run(scanner);
@@ -30,6 +32,7 @@ public class Main {
         }
     }
 
+    // Выходим из программы с сообщением об ошибке и возможностью продолжить сессию
     public static void exitWithException(Scanner scanner, String message) {
         System.out.printf("Произошла ошибка: %s\n", message);
         System.out.println("Вы хотите выйти (y), или попробовать снова? (n): ");

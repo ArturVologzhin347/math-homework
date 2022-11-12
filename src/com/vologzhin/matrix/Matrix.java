@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Matrix {
-    int width, height;
+    private final int width;
+    private final int height;
     private final double[][] m;
 
     public Matrix(int width, int height) {
